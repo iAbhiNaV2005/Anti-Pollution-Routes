@@ -1,0 +1,271 @@
+:root {
+  --bg: #f8fafc;
+  --bg-card: #ffffff;
+  --sidebar-bg: rgba(255, 255, 255, 0.85);
+  --text: #0f172a;
+  --text-muted: #64748b;
+  --accent: #10b981;
+  --accent-hover: #059669;
+  --accent-glow: rgba(16, 185, 129, 0.25);
+  --accent-amber: #f59e0b;
+  --border: #e2e8f0;
+  --radius: 14px;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.5);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0c0f1a;
+    --bg-card: #141827;
+    --sidebar-bg: rgba(20, 24, 39, 0.9);
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+    --border: #1e293b;
+    --glass-bg: rgba(20, 24, 39, 0.75);
+    --glass-border: rgba(30, 41, 59, 0.6);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, p, span, label {
+  color: inherit;
+}
+
+/* Form elements */
+input,
+select,
+textarea {
+  background: var(--bg);
+  color: var(--text);
+  font-family: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+select option {
+  background: var(--bg-card);
+  color: var(--text);
+}
+
+/* Buttons */
+button {
+  color: var(--text);
+  font-family: inherit;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed !important;
+}
+
+/* Leaflet overrides */
+.leaflet-container {
+  font-family: inherit;
+}
+
+.leaflet-popup-content-wrapper {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--text);
+  border-radius: 12px !important;
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-lg);
+}
+
+.leaflet-popup-tip {
+  background: var(--glass-bg);
+}
+
+.leaflet-popup-content {
+  margin: 10px 14px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* AQI utility classes */
+.aqi-good { --aqi-color: #22c55e; }
+.aqi-moderate { --aqi-color: #eab308; }
+.aqi-unhealthy-s { --aqi-color: #f97316; }
+.aqi-unhealthy { --aqi-color: #ef4444; }
+.aqi-very-unhealthy { --aqi-color: #a855f7; }
+.aqi-hazardous { --aqi-color: #7c3aed; }
+
+/* Route polyline glow */
+.route-polyline {
+  filter: drop-shadow(0 0 4px currentColor);
+  animation: route-glow 2s ease-in-out infinite;
+}
+
+@keyframes route-glow {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; }
+}
+
+/* AQI label markers along routes */
+.aqi-label-marker {
+  animation: aqi-label-in 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  pointer-events: none;
+}
+
+@keyframes aqi-label-in {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Station marker pulse */
+.station-marker {
+  animation: station-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes station-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+/* AQI station marker with label */
+.aqi-station-marker {
+  /* Remove default leaflet icon styles */
+}
+
+.aqi-station-marker > div {
+  transition: transform 0.2s ease;
+}
+
+.aqi-station-marker > div:hover {
+  transform: scale(1.15) !important;
+}
+
+/* Glassmorphism utility */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Sidebar scrollbar */
+.sidebar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* AQI legend */
+.aqi-legend {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1rem;
+  z-index: 1000;
+}
+
+.aqi-legend-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 0.75rem;
+  box-shadow: var(--shadow-md);
+  min-width: 140px;
+}
+
+/* Smooth transitions for map controls */
+.map-control-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.9rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 500;
+  box-shadow: var(--shadow-md);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.map-control-btn:hover {
+  box-shadow: var(--shadow-lg);
+  background: var(--bg-card);
+}
+
+.map-control-btn.primary {
+  background: linear-gradient(135deg, var(--accent) 0%, #059669 100%);
+  color: #fff;
+  border: none;
+}
+
+.map-control-btn.primary:hover {
+  box-shadow: 0 4px 15px var(--accent-glow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .route-polyline,
+  .station-marker,
+  .aqi-label-marker { animation: none; }
+}
+
+/* Responsive sidebar */
+@media (max-width: 768px) {
+  .sidebar {
+    max-height: 35vh;
+    border-right: none !important;
+    border-bottom: 1px solid var(--border);
+  }
+}
